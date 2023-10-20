@@ -1,4 +1,4 @@
-use cd;
-select * from facilities where guestcost = 5
+USE cd;
+select facility, membercost from facilities where guestcost = (SELECT min(guestcost) FROM facilities)
 UNION
-select * from facilities where guestcost = 80;
+select facility, membercost from facilities where guestcost = (SELECT max(guestcost) FROM facilities);

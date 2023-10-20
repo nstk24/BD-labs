@@ -1,2 +1,2 @@
-use cd;
-select facid, facility, membercost from facilities where membercost < monthlymaintenance / 50 and membercost not like "0";
+USE cd;
+SELECT facility, membercost FROM facilities WHERE membercost <= monthlymaintenance / 50 AND membercost !=0;

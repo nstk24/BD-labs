@@ -1,2 +1,2 @@
 use cd;
-select * from facilities where facility like "%tennis%";
+select facility from facilities where facility like "%Tennis%";

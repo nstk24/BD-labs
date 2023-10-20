@@ -1,6 +1,6 @@
 /*объекты с дешевой качественной стоимостью*/
-use cd;
-select * from facilities where monthlymaintenance <100;
+USE cd;
+SELECT facility, 'дешёвый' AS 'качественная стоимость'  FROM facilities WHERE monthlymaintenance <100
 /*объекты с дорогой качественной стоимостью*/
-use cd;
-select * from facilities where monthlymaintenance >=100;
+UNION
+SELECT facility, 'дорогой' AS 'качественная стоимость' FROM facilities WHERE monthlymaintenance >=100;

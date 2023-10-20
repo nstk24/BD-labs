@@ -1,4 +1,4 @@
-use cd;
-select firstname from members
+USE cd;
+SELECT firstname AS 'объединение', 'член клуба' AS 'расположение' FROM members
 UNION
-select facility from facilities;
+SELECT facility AS 'объединение', 'объект' AS 'расположение' FROM facilities;

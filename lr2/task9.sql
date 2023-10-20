@@ -1,2 +1,2 @@
-use cd;
-select * from members where joindate > '2012-08-31';
+USE cd;
+SELECT surname, firstname FROM members WHERE joindate > '2012-08-31';

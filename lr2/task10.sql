@@ -1,2 +1,2 @@
-use cd;
-select DISTINCT surname from members order by surname limit 10;
+USE cd;
+SELECT DISTINCT surname FROM members ORDER BY surname LIMIT 10;

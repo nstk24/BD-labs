@@ -1,2 +1,2 @@
 use cd;
-select facid, facility , membercost from facilities;
+select  facility , membercost FROM facilities;

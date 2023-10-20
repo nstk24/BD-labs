@@ -1,2 +1,2 @@
-use cd;
-select max(joindate) from members limit 1;
+USE cd;
+SELECT MAX(joindate) FROM members;
