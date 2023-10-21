@@ -1,6 +1,5 @@
-/*выбираем объекты с максимальной(MAX) или минимальной(MIN) стоимостью
-*/
+/*выбираем объекты с максимальной(MAX) или минимальной(MIN) стоимостью*/
 USE cd;
-select facility, membercost from facilities where guestcost = (SELECT min(guestcost) FROM facilities)
+SELECT facility, membercost FROM facilities WHERE guestcost = (SELECT min(guestcost) FROM facilities)
 UNION
-select facility, membercost from facilities where guestcost = (SELECT max(guestcost) FROM facilities);
+SELECT facility, membercost FROM facilities WHERE guestcost = (SELECT max(guestcost) FROM facilities);
