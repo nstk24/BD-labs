@@ -1,5 +1,5 @@
 /*создаём новый столбец, называем его "расположение" и в нём указываем то, откуда был взят объект, после объединяем две таблицы через UNION*/
 USE cd;
-SELECT firstname AS 'объединение', 'член клуба' AS 'расположение' FROM members
+SELECT firstname AS 'объединение'  FROM members
 UNION
-SELECT facility AS 'объединение', 'объект' AS 'расположение' FROM facilities;
+SELECT facility AS 'объект' FROM facilities;
