@@ -1,0 +1,6 @@
+USE cd;
+START TRANSACTION;
+DELETE FROM members WHERE memid = 37;
+SELECT * FROM members;
+ROLLBACK;
+SELECT * FROM members;
