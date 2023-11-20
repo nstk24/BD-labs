@@ -1,10 +1,25 @@
+-- Используем базу данных "cd"
 USE cd;
-SELECT bookings.facid,
-MONTH(bookings.starttime) AS month,
-COUNT(*) AS slots
-FROM bookings
-INNER JOIN facilities ON bookings.facid = facilities.facid
-WHERE YEAR(bookings.starttime) = 2012
-GROUP BY bookings.facid, MONTH(bookings.starttime)
+
+-- Выбираем идентификатор объекта (facid), месяц бронирования и сумму слотов (количество забронированных часов)
+SELECT
+    facid,
+    MONTH(starttime) AS month,
+    COALESCE(SUM(slots), 0) AS total_slots
+FROM
+    bookings
+
+-- Ограничиваем выборку бронирований только на 2012 год
+WHERE
+    YEAR(starttime) = 2012
+
+-- Группируем результаты по идентификатору объекта и месяцу
+GROUP BY
+    facid, month
+
+-- Добавляем строку-резюме (итоги) для каждого идентификатора объекта и общие итоги для всех объектов
 WITH ROLLUP
-ORDER BY bookings.facid, MONTH(bookings.starttime);
+
+-- Сортируем результаты по идентификатору объекта и месяцу
+ORDER BY
+    facid, month;

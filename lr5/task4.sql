@@ -1,7 +1,14 @@
+-- Используем базу данных "cd"
 USE cd;
-SELECT fac.facid as Facid,
-fac.facility as Facility,
-COUNT (boo.slots) AS rec
-FROM facilities fac
-JOIN bookings boo ON boo.facid = fac.facid
-GROUP BY fac.facid, fac.facility;
+
+-- Выбираем идентификатор объекта, название объекта и количество бронированных слотов для каждого объекта
+SELECT
+    fac.facid AS Facid,
+    fac.facility AS Facility,
+    COUNT(boo.slots) AS rec
+FROM
+    facilities fac
+JOIN
+    bookings boo ON boo.facid = fac.facid
+GROUP BY
+    fac.facid, fac.facility;

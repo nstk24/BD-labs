@@ -1,2 +1,5 @@
+-- Используем базу данных "cd"
 USE cd;
-SELECT COUNT(memid) FROM bookings;
+
+-- Выбираем количество уникальных идентификаторов участников (memid), которые сделали бронирования
+SELECT COUNT(DISTINCT memid) FROM bookings;
