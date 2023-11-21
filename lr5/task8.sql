@@ -7,14 +7,14 @@ SELECT
     facility AS object_name,
     SUM(
         CASE
-            WHEN bookings.memid = 0 THEN facilities.guestcost
-            ELSE facilities.membercost
+            WHEN b.memid = 0 THEN facilities.guestcost * b.slots 
+            ELSE facilities.membercost * b.slots
         END
     ) AS total_revenue
 FROM
     facilities
 JOIN
-    bookings ON facilities.facid = bookings.facid
+    bookings b  ON facilities.facid = b.facid
 GROUP BY
     facility
 ORDER BY

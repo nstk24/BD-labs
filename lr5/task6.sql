@@ -5,5 +5,5 @@ USE cd;
 -- за период 2012 года
 SELECT EXTRACT(MONTH FROM starttime) AS MONTH, bookings.facid, COUNT(*) AS TOTAL_BOOKINGS
 FROM bookings
-WHERE EXTRACT(YEAR FROM starttime) = 2012
+WHERE YEAR(starttime) = 2012
 GROUP BY MONTH, facid;
