@@ -8,7 +8,7 @@ USE cd;
 SELECT
     f.facid AS ObjectID,
     f.facility AS ObjectName,
-    ROUND(SUM(b.slots) / 2.0, 2) AS ReservedHours
+    ROUND(SUM(b.slots) , 2) AS ReservedHours
 FROM
     facilities f
 JOIN

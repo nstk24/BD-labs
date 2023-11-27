@@ -1,24 +1,33 @@
--- Используем базу данных "cd"
+-- Переключаемся на базу данных 'cd'.
 USE cd;
 
--- Выбираем уникальные комбинации количества бронирований, группы доходов и названия объекта
--- В зависимости от суммы membercost и guestcost объекта выбираем группу доходов ('Высокие доходы', 'Средние доходы' или 'Низкие доходы')
--- Группируем результаты по  группе доходов (income_group) и названию объекта (facility_name)
--- Сортируем результаты по группе доходов и названию объекта
-SELECT DISTINCT
-    CASE
-        WHEN f.membercost + f.guestcost >= 30 THEN 'Высокие доходы'
-        WHEN f.membercost + f.guestcost >= 20 THEN 'Средние доходы'
-        ELSE 'Низкие доходы'
-    END AS income_group,
-    f.facility AS facility_name
-FROM
-    members m 
-LEFT JOIN
-    bookings b ON m.memid = b.memid
-LEFT JOIN
-    facilities f ON b.facid = f.facid
-GROUP BY
-     income_group, facility_name
-ORDER BY
-    income_group, facility_name;
+-- Выбираем название объекта и категорию дохода для каждого объекта.
+
+SELECT facility, 
+
+  -- Используем выражение CASE для присвоения категории дохода в зависимости от значения incomegroup.
+  CASE 
+    WHEN incomegroup = 1 THEN 'Высокий доход'
+    WHEN incomegroup = 2 THEN 'Средний доход'
+    WHEN incomegroup = 3 THEN 'Низкий доход'
+  END AS incomegroup
+
+FROM (
+  -- Подзапрос (subquery):
+  SELECT f.facility, 
+  
+    -- Вычисляем выручку, используя условные выражения для учета типа участника (гость или член).
+    SUM(IF(b.memid = 0, f.guestcost * b.slots, f.membercost * b.slots)) AS revenue,
+  
+    -- Применяем функцию NTILE для разделения объектов на три группы с равными долями дохода.
+    NTILE(3) OVER (ORDER BY SUM(IF(b.memid = 0, f.guestcost * b.slots, f.membercost * b.slots))) AS incomegroup
+  
+  FROM facilities f
+  INNER JOIN bookings b ON f.facid = b.facid
+  
+  -- Группируем результаты по объекту.
+  GROUP BY f.facility
+) as subquery
+
+-- Сортируем результаты по категории дохода и названию объекта.
+ORDER BY incomegroup, facility;

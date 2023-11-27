@@ -2,4 +2,4 @@
 USE cd;
 
 -- Выбираем количество записей в столбце "facility" таблицы "facilities"
-SELECT COUNT(facility) FROM facilities;
+SELECT COUNT(facid) FROM facilities;

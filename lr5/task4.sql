@@ -5,7 +5,7 @@ USE cd;
 SELECT
     fac.facid AS Facid,
     fac.facility AS Facility,
-    COUNT(boo.slots) AS rec
+    SUM(boo.slots) AS rec
 FROM
     facilities fac
 JOIN

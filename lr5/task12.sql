@@ -17,7 +17,7 @@ FROM
 LEFT JOIN
     bookings b ON m.memid = b.memid
 WHERE
-    b.starttime IS NOT NULL AND DATE(b.starttime) > '2012-09-01'
+      DATE(b.starttime) > '2012-09-01'
 GROUP BY
     m.memid, m.firstname, m.surname
 ORDER BY

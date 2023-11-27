@@ -1,25 +1,29 @@
--- Используем базу данных "cd"
+-- Переключаемся на базу данных 'cd'.
 USE cd;
 
--- Выбираем идентификатор объекта (facid), месяц бронирования и сумму слотов (количество забронированных часов)
-SELECT
-    facid,
-    MONTH(starttime) AS month,
-    COALESCE(SUM(slots), 0) AS total_slots
-FROM
-    bookings
+-- Основной запрос:
+SELECT 
+    IFNULL(derived_table.facid, 'Total') as facid, -- Используется IFNULL для предотвращения NULL идентификаторов объектов.
+    IFNULL(derived_table.month, 'Total') as month, -- IFNULL обеспечивает замену NULL значений месяцев на 'Total'.
+    SUM(derived_table.slots) AS 'Количество забронированных мест' -- Суммируем количество забронированных слотов.
 
--- Ограничиваем выборку бронирований только на 2012 год
-WHERE
-    YEAR(starttime) = 2012
+FROM 
+    (
+        -- Подзапрос (derived_table): 
+        SELECT 
+            f.facid AS facid,
+            MONTH(b.starttime) AS month,
+            SUM(b.slots) as slots
+        FROM
+            facilities f
+        INNER JOIN bookings b ON f.facid = b.facid
+        WHERE
+            YEAR(b.starttime) = 2012
+        GROUP BY facid, month, slots
+    ) AS derived_table -- Результат подзапроса алиасируется как 'derived_table'.
 
--- Группируем результаты по идентификатору объекта и месяцу
-GROUP BY
-    facid, month
+GROUP BY facid, month WITH ROLLUP; -- Группировка результатов по идентификатору объекта и месяцу с использованием WITH ROLLUP.
 
--- Добавляем строку-резюме (итоги) для каждого идентификатора объекта и общие итоги для всех объектов
-WITH ROLLUP
 
--- Сортируем результаты по идентификатору объекта и месяцу
-ORDER BY
-    facid, month;
+
+
