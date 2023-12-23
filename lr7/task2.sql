@@ -1,7 +1,7 @@
 USE cd;
 DELIMITER //
 
-CREATE PROCEDURE AddPaidColumnIfNeed()
+CREATE PROCEDURE AddPaidColumn()
 BEGIN
     -- Попытка добавить столбец без проверки его существования
     BEGIN
@@ -13,11 +13,11 @@ END //
 DELIMITER ;
 
 -- Вызываем процедуру
-CALL AddPaidColumnIfNeeded();
+CALL AddPaidColumn();
 
 -- Триггер для предотвращения удаления оплаченных бронирований
 DELIMITER //
-CREATE TRIGGER PreventDeletePaidBookings
+CREATE TRIGGER PreventDeletePaidBookin
 BEFORE DELETE ON bookings
 FOR EACH ROW
 BEGIN
