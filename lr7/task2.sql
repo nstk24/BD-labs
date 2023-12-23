@@ -1,25 +1,13 @@
 USE cd;
-
 DELIMITER //
 
--- Создаем процедуру для добавления столбца paid, если его нет
-CREATE PROCEDURE AddPaidColumnIfNeeded()
+CREATE PROCEDURE AddPaidColumnIfNeed()
 BEGIN
-    DECLARE columnExists INT;
-
-    -- Проверяем наличие столбца paid в таблице bookings
-    SELECT COUNT(*)
-    INTO columnExists
-    FROM information_schema.columns
-    WHERE table_name = 'bookings' AND column_name = 'paid';
-
-    -- Если столбец отсутствует, добавляем его
-    IF columnExists = 0 THEN
-        SET @alterQuery = 'ALTER TABLE bookings ADD COLUMN paid BOOLEAN DEFAULT FALSE';
-        PREPARE stmt FROM @alterQuery;
-        EXECUTE stmt;
-        DEALLOCATE PREPARE stmt;
-    END IF;
+    -- Попытка добавить столбец без проверки его существования
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR SQLSTATE '42S21' BEGIN END;
+        ALTER TABLE bookings ADD COLUMN paid BOOLEAN DEFAULT FALSE;
+    END;
 END //
 
 DELIMITER ;
@@ -27,7 +15,7 @@ DELIMITER ;
 -- Вызываем процедуру
 CALL AddPaidColumnIfNeeded();
 
--- Task-7-2: Создаем триггеры
+-- Триггер для предотвращения удаления оплаченных бронирований
 DELIMITER //
 CREATE TRIGGER PreventDeletePaidBookings
 BEFORE DELETE ON bookings
